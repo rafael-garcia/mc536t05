@@ -1,0 +1,9 @@
+{
+  "name": "mc536-t05",
+  "description": "CRUD para MC536",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.0.0"
+  }
+}
