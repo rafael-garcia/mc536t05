@@ -5,10 +5,9 @@ var server = app.listen(8080, function() {
     console.log('Listening on port %d', server.address().port);
 });
 
-
 function errorHandler(err, req, res, next) {
-  res.status(500);
-  res.render('error', { error: err });
+    res.status(500);
+    res.render('error', { error: err });
 }
 
 // error
