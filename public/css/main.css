@@ -1,0 +1,12 @@
+body {
+    font-family: 'Tahoma';
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: solid gray thin;
+    padding: 1em;
+}
