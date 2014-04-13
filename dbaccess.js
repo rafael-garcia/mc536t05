@@ -11,6 +11,6 @@ module.exports = {
     },
     query: function() {
         var connection = this.connection();
-        connection.query.apply(connection, arguments);
+        return connection.query.apply(connection, arguments);
     }
 };
