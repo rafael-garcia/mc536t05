@@ -11,16 +11,24 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
     var query = 'INSERT INTO usuario (login, nome, cidade, uri) VALUES (?, ?, ?, ?)';
-    var values = [req.body.login, req.body.nome, req.body.cidade, req.body.uri];
-    dbaccess.query(query, values, function(err, result) {
+    var params = [req.body.login, req.body.nome, req.body.cidade, req.body.uri];
+    dbaccess.query(query, params, function(err, result) {
         res.send(req.body);
     });
 });
 
 router.put('/:login', function(req, res) {
     var query = 'UPDATE usuario SET uri = ?, nome = ?, cidade = ? WHERE login = ?';
-    var values = [req.body.uri, req.body.nome, req.body.cidade, req.params.login];
-    dbaccess.query(query, values, function(err, result) {
+    var params = [req.body.uri, req.body.nome, req.body.cidade, req.params.login];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
+
+router['delete']('/:login', function(req, res) {
+    var query = 'DELETE FROM usuario WHERE login = ?';
+    var params = [req.params.login];
+    dbaccess.query(query, params, function(err, result) {
         res.send(result);
     });
 });
