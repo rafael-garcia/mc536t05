@@ -5,7 +5,9 @@ var router = express.Router();
 router.get('/', function(req, res) {
     var query = 'SELECT * FROM usuario';
     dbaccess.query(query, function(err, rows, fields) {
-        res.send(rows);
+        res.render('usuarios/index', { 
+            usuarios: rows
+        });
     });
 });
 

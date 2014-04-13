@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html data-include="views/base.html">
+    <div data-fragment="content">
+        <table>
+            <thead>
+                <tr>
+                    <th>login</th>
+                    <th>nome</th>
+                    <th>cidade</th>
+                    <th>uri</th>
+                </tr>
+            </thead>
+            <tbody data-for="usuario in root.usuarios">
+                <tr>
+                    <td>#{usuario.login}</td>
+                    <td>#{usuario.nome}</td>
+                    <td>#{usuario.cidade}</td>
+                    <td>#{usuario.uri}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</html>
