@@ -1,15 +1,9 @@
 var express = require('express');
-var mysql = require('mysql');
-var util = require('util');
+var dbaccess = require('../dbaccess');
 var router = express.Router();
 
 router.get('/', function(req, res) {
-    var connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'mc536'
-    });
-    connection.query('SELECT * FROM artista', function(err, rows, fields) {
+    dbaccess.query('SELECT * FROM artista', function(err, rows, fields) {
         res.send(rows);
     });
 });
