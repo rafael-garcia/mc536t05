@@ -9,7 +9,9 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    
+    dbaccess.query('INSERT INTO cidade (nome, estado_id) VALUES (?)', req.cidade, function(err, result) {
+        res.send(result.insertId);
+    });
 });
 
 module.exports = router;
