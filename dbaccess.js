@@ -7,10 +7,10 @@ module.exports = {
             user: 'root',
             database: 'mc536'
         });
-        return connection;        
+        return connection;
     },
-    query: function(queryString, callback) {
+    query: function() {
         var connection = this.connection();
-        connection.query(queryString, callback);
+        connection.query.apply(connection, arguments);
     }
 };

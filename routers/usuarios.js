@@ -8,4 +8,10 @@ router.get('/', function(req, res) {
     });
 });
 
+router.post('/', function(req, res) {
+    dbaccess.query('INSERT INTO usuario SET ?', req.body, function(err, result) {
+        res.send(req.body);
+    });
+});
+
 module.exports = router;
