@@ -3,13 +3,16 @@ var dbaccess = require('../dbaccess');
 var router = express.Router();
 
 router.get('/', function(req, res) {
-    dbaccess.query('SELECT * FROM usuario', function(err, rows, fields) {
+    var query = 'SELECT * FROM usuario';
+    dbaccess.query(query, function(err, rows, fields) {
         res.send(rows);
     });
 });
 
 router.post('/', function(req, res) {
-    dbaccess.query('INSERT INTO usuario SET ?', req.body, function(err, result) {
+    var query = 'INSERT INTO usuario (login, nome, cidade, uri) VALUES (?, ?, ?, ?)';
+    var values = [req.body.login, req.body.nome, req.body.cidade, req.body.uri];
+    dbaccess.query(query, values, function(err, result) {
         res.send(req.body);
     });
 });
