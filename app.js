@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 
 var index = require('./routers/index');
 var usuarios = require('./routers/usuarios');
-var cidades = require('./routers/cidades'); 
+var cidades = require('./routers/cidades');
+var amizades = require('./routers/amizades');
+var artistas = require('./routers/artistas');
 
 var app = express();
 
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/usuarios', usuarios);
 app.use('/cidades', cidades);
+app.use('/amizades', amizades);
+app.use('/artistas', artistas);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

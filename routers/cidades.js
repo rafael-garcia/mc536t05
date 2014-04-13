@@ -3,7 +3,6 @@ var mysql = require('mysql');
 var util = require('util');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function(req, res) {
     var connection = mysql.createConnection({
         host: 'localhost',

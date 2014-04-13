@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
         user: 'root',
         database: 'mc536'
     });
-    connection.query('SELECT * FROM usuario', function(err, rows, fields) {
+    connection.query('SELECT * FROM artista', function(err, rows, fields) {
         res.send(rows);
     });
 });
