@@ -9,15 +9,6 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    var query = 'INSERT INTO cidade (nome) VALUES (?)';
-    var params = [req.body.nome];
-    dbaccess.query(query, params, function(err, result) {
-        res.send(req.body);
-    });
-});
-
-
-router.post('/', function(req, res) {
     var query = 'INSERT INTO usuario (login, nome, cidade, uri) VALUES (?, ?, ?, ?)';
     var params = [req.body.login, req.body.nome, req.body.cidade, req.body.uri];
     dbaccess.query(query, params, function(err, result) {
