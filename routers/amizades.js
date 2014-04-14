@@ -22,11 +22,19 @@ router.post('/', function(req, res) {
     });
 });
 
+router.get('/editar/:solicitante/:solicitado', function(req, res) {
+    var query = 'SELECT * FROM amizade WHERE solicitante = ? AND solicitado = ?';
+    var params = [req.params.solicitante, req.params.solicitado];
+    dbaccess.query(query, params, function(err, result) {
+        res.render('amizades/form', result[0]);
+    });
+});
+
 router.post('/:solicitante/:solicitado', function(req, res) {
     var query = 'UPDATE amizade SET solicitante = ?, solicitado = ? WHERE solicitante = ? AND solicitado = ?';
     var params = [req.body.solicitante, req.body.solicitado, req.params.solicitante, req.params.solicitado];
     dbaccess.query(query, params, function(err, result) {
-        res.send(result);
+        res.redirect('/amizades');
     });
 });
 
