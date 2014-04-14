@@ -8,4 +8,12 @@ router.get('/', function(req, res) {
     });
 });
 
+router.post('/', function(req, res) {
+    var query = 'INSERT INTO artista (nome_artistico) VALUES (?)';
+    var params = [req.body.nomeArtistico];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
+
 module.exports = router;
