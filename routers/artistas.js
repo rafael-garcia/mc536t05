@@ -14,8 +14,12 @@ router.post('/', function(req, res) {
     var query = 'INSERT INTO artista (nome_artistico) VALUES (?)';
     var params = [req.body.nomeArtistico];
     dbaccess.query(query, params, function(err, result) {
-        res.send(result);
+        res.redirect('/artistas');
     });
+});
+
+router.get('/criar', function(req, res) {
+    res.render('artistas/form');
 });
 
 router['delete']('/:nomeArtistico', function(req, res) {

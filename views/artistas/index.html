@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html data-include="views/base.html">
+    <div data-fragment="scripts">
+        <script type="text/javascript" src="js/acoesDaListagem.js"></script>
+    </div>
+
+    <div data-fragment="content">
+        <h1>Listagem de artistas</h1>
+        <div>
+            <a href="/artistas/criar" title="Criar artista">
+                Criar artista
+            </a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>nome artístico</th>
+                    <th>ações</th>
+                </tr>
+            </thead>
+            <tbody data-for="artista in root.artistas">
+                <tr class="linhaDeDados">
+                    <td>#{artista.nome_artistico}</td>
+                    <td>
+                        <a href="/artistas/editar/#{artista.nome_artistico}" class="acao editar">
+                            editar
+                        </a>
+                        <a href="javascript:void(0);" class="acao apagar" data-url="/artistas/#{artista.nome_artistico}">
+                            apagar
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</html>
