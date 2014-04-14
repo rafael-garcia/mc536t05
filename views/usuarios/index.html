@@ -28,6 +28,9 @@
                     <td>#{usuario.cidade}</td>
                     <td>#{usuario.uri}</td>
                     <td>
+                        <a href="/usuarios/editar/#{usuario.login}" class="acao editar">
+                            editar
+                        </a>
                         <a href="javascript:void(0);" class="acao apagar" data-url="/usuarios/#{usuario.login}">
                             apagar
                         </a>

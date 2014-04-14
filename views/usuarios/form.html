@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html data-include="views/base.html">
     <div data-fragment="content">
-        <h1>Criar usuário</h1>
+        @{var header = (root.login) ? 'Editar usuário' : 'Criar usuário';}
+        @{var action = (root.login) ? '/usuarios/' + root.login : '/usuarios';}
 
-        <form action="/usuarios" method="POST" accept-charset="utf-8">
+        <h1>#{header}</h1>
+        <form action="#{action}" method="POST" accept-charset="utf-8">
             <div>
                 <label for="login">login:</label>
-                <input type="text" name="login" />
+                <input type="text" name="login" value="#{root.login}" />
             </div>
 
             <div>
                 <label for="nome">nome:</label>
-                <input type="text" name="nome" />
+                <input type="text" name="nome" value="#{root.nome}" />
             </div>
 
             <div>
                 <label for="cidade">cidade:</label>
-                <input type="text" name="cidade" />
+                <input type="text" name="cidade" value="#{root.cidade}" />
             </div>
 
             <div>
                 <label for="uri">uri:</label>
-                <input type="text" name="uri" />
+                <input type="text" name="uri" value="#{root.uri}" />
             </div>
 
             <div>
