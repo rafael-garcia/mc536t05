@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html data-include="views/base.html">
+    <div data-fragment="content">
+        @{var header = (root.nome) ? 'Editar cidade' : 'Criar cidade';}
+        @{var action = (root.nome) ? '/cidades/' + root.nome : '/cidades';}
+
+        <h1>#{header}</h1>
+        <form action="#{action}" method="POST" accept-charset="utf-8">
+            <div>
+                <label for="nome">nome:</label>
+                <input type="text" name="nome" value="#{root.nome}" />
+            </div>
+
+            <div>
+                <input type="submit" value="Criar" />
+            </div>
+        </form>
+    </div>
+</html>

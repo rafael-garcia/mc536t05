@@ -3,7 +3,8 @@ var dbaccess = require('../dbaccess');
 var router = express.Router();
 
 router.get('/', function(req, res) {
-    dbaccess.query('SELECT * FROM cidade', function(err, rows, fields) {
+    var query = 'SELECT * FROM cidade';
+    dbaccess.query(query, function(err, rows, fields) {
         res.render('cidades/index', { 
             cidades: rows
         });
@@ -14,7 +15,7 @@ router.post('/', function(req, res) {
     var query = 'INSERT INTO cidade (nome) VALUES (?)';
     var params = [req.body.nome];
     dbaccess.query(query, params, function(err, result) {
-        res.send(req.body);
+        res.redirect('/cidades');
     });
 });
 
