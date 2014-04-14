@@ -16,4 +16,13 @@ router.post('/', function(req, res) {
     });
 });
 
+router['delete']('/:nomeArtistico', function(req, res) {
+    var query = 'DELETE FROM artista WHERE nome_artistico = ?';
+    var params = [req.params.nomeArtistico];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
+
+
 module.exports = router;
