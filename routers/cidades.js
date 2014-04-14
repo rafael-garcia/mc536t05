@@ -24,8 +24,8 @@ router.get('/criar', function(req, res) {
 });
 
 router.post('/:cidade', function(req, res) {
-    var query = 'UPDATE cidade SET nome = ?';
-    var params = [req.body.nome];
+    var query = 'UPDATE cidade SET nome = ? WHERE nome = ?';
+    var params = [req.body.nome, req.params.cidade];    
     dbaccess.query(query, params, function(err, result) {
         res.redirect('/cidades');
     });
@@ -33,7 +33,7 @@ router.post('/:cidade', function(req, res) {
 
 router.get('/editar/:cidade', function(req, res) {
     var query = 'SELECT * FROM cidade WHERE nome = ?';
-    var params = [req.params.nome];
+    var params = [req.params.cidade];
     dbaccess.query(query, params, function(err, result) {
         res.render('cidades/form', result[0]);
     });
