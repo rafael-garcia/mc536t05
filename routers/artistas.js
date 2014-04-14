@@ -24,5 +24,12 @@ router['delete']('/:nomeArtistico', function(req, res) {
     });
 });
 
+router.post('/:nomeArtistico', function(req, res) {
+    var query = 'UPDATE artista SET nome_artistico = ? WHERE nome_artistico = ?';
+    var params = [req.body.nomeArtistico, req.params.nomeArtistico];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
 
 module.exports = router;
