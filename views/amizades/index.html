@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-include="views/base.html">
+    <div data-fragment="scripts">
+        <script type="text/javascript" src="js/acoesDaListagem.js"></script>
+    </div>
+
+    <div data-fragment="content">
+        <h1>Listagem de amizades</h1>
+        <div>
+            <a href="/amizades/criar" title="Criar amizade">
+                Criar amizade
+            </a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>solicitante</th>
+                    <th>solicitado</th>
+                    <th>ações</th>
+                </tr>
+            </thead>
+            <tbody data-for="amizade in root.amizades">
+                <tr class="linhaDeDados">
+                    <td>#{amizade.solicitante}</td>
+                    <td>#{amizade.solicitado}</td>
+                    <td>
+                        <a href="/amizades/editar/#{amizade.solicitante}/#{amizade.solicitado}" class="acao editar">
+                            editar
+                        </a>
+                        <a data-url="/amizades/#{amizade.solicitante}/#{amizade.solicitado}"
+                            href="javascript:void(0);" class="acao apagar">
+                            apagar
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</html>

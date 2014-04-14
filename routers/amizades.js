@@ -4,7 +4,9 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
     dbaccess.query('SELECT * FROM amizade', function(err, rows, fields) {
-        res.send(rows);
+        res.render('amizades/index', {
+            amizades: rows
+        });
     });
 });
 
