@@ -32,5 +32,4 @@ router['delete']('/:cidade', function(req, res) {
     });
 });
 
-
 module.exports = router;
