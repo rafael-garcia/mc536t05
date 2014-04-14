@@ -27,7 +27,7 @@ router.post('/:cidade', function(req, res) {
     var query = 'UPDATE cidade SET nome = ?';
     var params = [req.body.nome];
     dbaccess.query(query, params, function(err, result) {
-        res.redirect('/usuarios');
+        res.redirect('/cidades');
     });
 });
 
