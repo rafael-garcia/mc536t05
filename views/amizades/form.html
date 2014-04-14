@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html data-include="views/base.html">
     <div data-fragment="content">
-        @{var edicao = !!root.nome_artistico}
-        @{var header = (edicao) ? 'Editar artista' : 'Criar artista';}
-        @{var action = (edicao) ? '/artistas/' + root.nome_artistico : '/artistas';}
+        @{var edicao = !!root.solicitante}
+        @{var header = (edicao) ? 'Editar amizade' : 'Criar amizade';}
+        @{var action = (edicao) ? '/amizades/' + root.solicitante + '/' + root.solicitado : '/amizades';}
         @{var submit = (edicao) ? 'Editar' : 'Criar';}
 
         <h1>#{header}</h1>
         <form action="#{action}" method="POST" accept-charset="utf-8">
             <div>
-                <label for="nome_artistico">nome artístico:</label>
-                <input type="text" name="nomeArtistico" value="#{root.nome_artistico}" />
+                <label for="solicitante">solicitante:</label>
+                <input type="text" name="solicitante" value="#{root.solicitante}" />
+            </div>
+
+            <div>
+                <label for="solicitado">solicitado:</label>
+                <input type="text" name="solicitado" value="#{root.solicitado}" />
             </div>
 
             <div>

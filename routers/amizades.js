@@ -10,11 +10,15 @@ router.get('/', function(req, res) {
     });
 });
 
+router.get('/criar', function(req, res) {
+    res.render('amizades/form');
+});
+
 router.post('/', function(req, res) {
     var query = 'INSERT INTO amizade (solicitante, solicitado) VALUES (?, ?)';
     var params = [req.body.solicitante, req.body.solicitado];
     dbaccess.query(query, params, function(err, result) {
-        res.send(result);
+        res.redirect('/amizades');
     });
 });
 
