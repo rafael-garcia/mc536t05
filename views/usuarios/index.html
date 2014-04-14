@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html data-include="views/base.html">
+    <div data-fragment="scripts">
+        <script type="text/javascript" src="js/acoesDaListagem.js"></script>
+    </div>
+
     <div data-fragment="content">
         <h1>Usuários</h1>
         <table>
@@ -9,6 +13,7 @@
                     <th>nome</th>
                     <th>cidade</th>
                     <th>uri</th>
+                    <th>ações</th>
                 </tr>
             </thead>
             <tbody data-for="usuario in root.usuarios">
@@ -17,6 +22,11 @@
                     <td>#{usuario.nome}</td>
                     <td>#{usuario.cidade}</td>
                     <td>#{usuario.uri}</td>
+                    <td>
+                        <a href="javascript:void(0);" class="acao apagar" data-url="/usuarios/#{usuario.login}">
+                            apagar
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
