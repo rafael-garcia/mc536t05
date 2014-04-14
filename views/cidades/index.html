@@ -4,23 +4,28 @@
         <script type="text/javascript" src="js/acoesDaListagem.js"></script>
     </div>
 
-    <div data-fragment="content">
-        <h1>Cidades</h1>
+     <div data-fragment="content">
+        <h1>Listagem de cidades</h1>
+        <div>
+            <a href="/cidades/criar" title="Criar cidade">
+                Criar cidade
+            </a>
+        </div>
         <table>
             <thead>
                 <tr>
-                    <th>login</th>
                     <th>nome</th>
-                    <th>cidade</th>
-                    <th>uri</th>
                     <th>ações</th>
                 </tr>
             </thead>
             <tbody data-for="cidade in root.cidades">
-                <tr>
+                <tr class="linhaDeDados">
                     <td>#{cidade.nome}</td>
                     <td>
-                        <a href="javascript:void(0);" class="acao apagar" data-url="/ciadades/#{cidade.nome}">
+                        <a href="/cidades/editar/#{cidade.login}" class="acao editar">
+                            editar
+                        </a>
+                        <a href="javascript:void(0);" class="acao apagar" data-url="/cidades/#{cidade.login}">
                             apagar
                         </a>
                     </td>
