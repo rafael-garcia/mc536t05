@@ -19,6 +19,10 @@ router.post('/', function(req, res) {
     });
 });
 
+router.get('/criar', function(req, res) {
+    res.render('usuarios/form');
+});
+
 router.put('/:login', function(req, res) {
     var query = 'UPDATE usuario SET uri = ?, nome = ?, cidade = ? WHERE login = ?';
     var params = [req.body.uri, req.body.nome, req.body.cidade, req.params.login];
