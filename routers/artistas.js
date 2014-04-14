@@ -22,17 +22,25 @@ router.get('/criar', function(req, res) {
     res.render('artistas/form');
 });
 
-router['delete']('/:nomeArtistico', function(req, res) {
-    var query = 'DELETE FROM artista WHERE nome_artistico = ?';
-    var params = [req.params.nomeArtistico];
-    dbaccess.query(query, params, function(err, result) {
-        res.send(result);
-    });
-});
-
 router.post('/:nomeArtistico', function(req, res) {
     var query = 'UPDATE artista SET nome_artistico = ? WHERE nome_artistico = ?';
     var params = [req.body.nomeArtistico, req.params.nomeArtistico];
+    dbaccess.query(query, params, function(err, result) {
+        res.redirect('/artistas');
+    });
+});
+
+router.get('/editar/:nomeArtistico', function(req, res) {
+    var query = 'SELECT * FROM artista WHERE nome_artistico = ?';
+    var params = [req.params.nomeArtistico];
+    dbaccess.query(query, params, function(err, result) {
+        res.render('artistas/form', result[0]);
+    });
+});
+
+router['delete']('/:nomeArtistico', function(req, res) {
+    var query = 'DELETE FROM artista WHERE nome_artistico = ?';
+    var params = [req.params.nomeArtistico];
     dbaccess.query(query, params, function(err, result) {
         res.send(result);
     });
