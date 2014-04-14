@@ -24,4 +24,12 @@ router.post('/:solicitante/:solicitado', function(req, res) {
     });
 });
 
+router['delete']('/:solicitante/:solicitado', function(req, res) {
+    var query = 'DELETE FROM amizade WHERE solicitante = ? AND solicitado = ?';
+    var params = [req.params.solicitante, req.params.solicitado];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
+
 module.exports = router;
