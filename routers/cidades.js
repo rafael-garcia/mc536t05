@@ -9,9 +9,37 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    dbaccess.query('INSERT INTO cidade (nome, estado_id) VALUES (?)', req.cidade, function(err, result) {
-        res.send(result.insertId);
+    var query = 'INSERT INTO cidade (nome) VALUES (?)';
+    var params = [req.body.nome];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(req.body);
     });
 });
+
+
+router.post('/', function(req, res) {
+    var query = 'INSERT INTO usuario (login, nome, cidade, uri) VALUES (?, ?, ?, ?)';
+    var params = [req.body.login, req.body.nome, req.body.cidade, req.body.uri];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(req.body);
+    });
+});
+
+router.put('/:cidade', function(req, res) {
+    var query = 'UPDATE cidade SET nome = ?';
+    var params = [req.body.nome];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
+
+router['delete']('/:cidade', function(req, res) {
+    var query = 'DELETE FROM cidade WHERE nome = ?';
+    var params = [req.params.cidade];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
+
 
 module.exports = router;
