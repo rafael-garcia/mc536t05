@@ -4,23 +4,37 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
     dbaccess.query('SELECT * FROM cidade', function(err, rows, fields) {
-        res.send(rows);
+        res.render('cidades/index', { 
+            cidades: rows
+        });
     });
 });
 
 router.post('/', function(req, res) {
-    var query = 'INSERT INTO usuario (login, nome, cidade, uri) VALUES (?, ?, ?, ?)';
-    var params = [req.body.login, req.body.nome, req.body.cidade, req.body.uri];
+    var query = 'INSERT INTO cidade (nome) VALUES (?)';
+    var params = [req.body.nome];
     dbaccess.query(query, params, function(err, result) {
         res.send(req.body);
     });
 });
 
-router.put('/:cidade', function(req, res) {
+router.get('/criar', function(req, res) {
+    res.render('cidades/form');
+});
+
+router.post('/:cidade', function(req, res) {
     var query = 'UPDATE cidade SET nome = ?';
     var params = [req.body.nome];
     dbaccess.query(query, params, function(err, result) {
-        res.send(result);
+        res.redirect('/usuarios');
+    });
+});
+
+router.get('/editar/:cidade', function(req, res) {
+    var query = 'SELECT * FROM cidade WHERE nome = ?';
+    var params = [req.params.nome];
+    dbaccess.query(query, params, function(err, result) {
+        res.render('cidades/form', result[0]);
     });
 });
 
