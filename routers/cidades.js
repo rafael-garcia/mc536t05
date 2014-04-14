@@ -16,7 +16,6 @@ router.post('/', function(req, res) {
     });
 });
 
-
 router.post('/', function(req, res) {
     var query = 'INSERT INTO usuario (login, nome, cidade, uri) VALUES (?, ?, ?, ?)';
     var params = [req.body.login, req.body.nome, req.body.cidade, req.body.uri];
