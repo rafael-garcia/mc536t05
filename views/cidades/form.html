@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html data-include="views/base.html">
     <div data-fragment="content">
-        @{var header = (root.nome) ? 'Editar cidade' : 'Criar cidade';}
-        @{var action = (root.nome) ? '/cidades/' + root.nome : '/cidades';}
+        @{var edicao = !!root.nome}
+        @{var header = (edicao) ? 'Editar cidade' : 'Criar cidade';}
+        @{var action = (edicao) ? '/cidades/' + root.nome : '/cidades';}
+        @{var submit = (edicao) ? 'Editar' : 'Criar';}
 
         <h1>#{header}</h1>
         <form action="#{action}" method="POST" accept-charset="utf-8">
@@ -12,7 +14,7 @@
             </div>
 
             <div>
-                <input type="submit" value="Criar" />
+                <input type="submit" value="#{submit}" />
             </div>
         </form>
     </div>
