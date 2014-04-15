@@ -4,6 +4,10 @@
         <script type="text/javascript" src="js/acoesDaListagem.js"></script>
     </div>
 
+    <div data-fragment="stylesheets">
+        <link rel="stylesheet" href="/css/listagem.css">
+    </div>
+
     <div data-fragment="content">
         <h1>Listagem de amizades</h1>
         <div>
@@ -16,14 +20,14 @@
                 <tr>
                     <th>solicitante</th>
                     <th>solicitado</th>
-                    <th>ações</th>
+                    <th class="acoes">ações</th>
                 </tr>
             </thead>
             <tbody data-for="amizade in root.amizades">
                 <tr class="linhaDeDados">
                     <td>#{amizade.solicitante}</td>
                     <td>#{amizade.solicitado}</td>
-                    <td>
+                    <td class="acoes">
                         <a href="/amizades/editar/#{amizade.solicitante}/#{amizade.solicitado}" class="acao editar">
                             editar
                         </a>

@@ -4,6 +4,10 @@
         <script type="text/javascript" src="js/acoesDaListagem.js"></script>
     </div>
 
+    <div data-fragment="stylesheets">
+        <link rel="stylesheet" href="/css/listagem.css">
+    </div>
+
      <div data-fragment="content">
         <h1>Listagem de cidades</h1>
         <div>
@@ -21,7 +25,7 @@
             <tbody data-for="cidade in root.cidades">
                 <tr class="linhaDeDados">
                     <td>#{cidade.nome}</td>
-                    <td>
+                    <td class="acoes">
                         <a href="/cidades/editar/#{cidade.nome}" class="acao editar">
                             editar
                         </a>

@@ -4,6 +4,10 @@
         <script type="text/javascript" src="js/acoesDaListagem.js"></script>
     </div>
 
+    <div data-fragment="stylesheets">
+        <link rel="stylesheet" href="/css/listagem.css">
+    </div>
+
     <div data-fragment="content">
         <h1>Listagem de curtidas</h1>
         <div>
@@ -17,7 +21,7 @@
                     <th>usuário</th>
                     <th>artista</th>
                     <th>nota</th>
-                    <th>ações</th>
+                    <th class="acoes">ações</th>
                 </tr>
             </thead>
             <tbody data-for="curtida in root.curtidas">
@@ -25,7 +29,7 @@
                     <td>#{curtida.usuario}</td>
                     <td>#{curtida.artista}</td>
                     <td>#{curtida.nota}</td>
-                    <td>
+                    <td class="acoes">
                         <a href="/curtidas/editar/#{curtida.usuario}/#{curtida.artista}" class="acao editar">
                             editar
                         </a>

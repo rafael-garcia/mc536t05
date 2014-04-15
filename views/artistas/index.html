@@ -4,6 +4,10 @@
         <script type="text/javascript" src="js/acoesDaListagem.js"></script>
     </div>
 
+    <div data-fragment="stylesheets">
+        <link rel="stylesheet" href="/css/listagem.css">
+    </div>
+
     <div data-fragment="content">
         <h1>Listagem de artistas</h1>
         <div>
@@ -15,13 +19,13 @@
             <thead>
                 <tr>
                     <th>nome artístico</th>
-                    <th>ações</th>
+                    <th class="acoes">ações</th>
                 </tr>
             </thead>
             <tbody data-for="artista in root.artistas">
                 <tr class="linhaDeDados">
                     <td>#{artista.nome_artistico}</td>
-                    <td>
+                    <td class="acoes">
                         <a href="/artistas/editar/#{artista.nome_artistico}" class="acao editar">
                             editar
                         </a>

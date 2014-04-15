@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html data-include="views/base.html">
+    <div data-fragment="stylesheets">
+        <link rel="stylesheet" href="/css/index.css" />
+    </div>
+
     <div data-fragment="content">
-        Esta é a página principal.
-        <br>
-        <a href="/usuarios">Usuário</a>
-	    <a href="/cidades">Cidades</a>
-	    <a href="/amizades">Amizades</a>
+        <h1>Tarefa 5</h1>
+        <div class="descricao">
+            <p>
+                O que você está acessando agora é o produto final da Tarefa 5
+                que foi desenvolvida para a disciplina de MC536 (Bancos de Dados) 
+                oferecida pela UNICAMP no 2o semestre de 2014.
+            </p>
+
+            <p>
+                A tarefa consiste em um CRUD básico para todas as entidades que puderam
+                ser cadastradas à partir dos arquivos XML disponibilizados na Tarefa 4.
+            </p>
+        </div>
+        <menu type="list">
+            <li>
+                <a href="/usuarios">Usuários</a>
+            </li>
+    	    <li>
+                <a href="/cidades">Cidades</a>
+            </li>
+            <li>
+                <a href="/artistas">Artistas</a>
+            </li>
+            <li>
+                <a href="/amizades">Amizades</a>
+            </li>
+    	    <li>
+                <a href="/curtidas">Curtidas</a>
+            </li>
+        </menu>
     </div>
 </html>
