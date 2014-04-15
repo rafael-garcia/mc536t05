@@ -1,3 +1,7 @@
 .acoes {
     width: 70px;
 }
+
+.acao.criar {
+    padding-bottom: 1em;
+}
