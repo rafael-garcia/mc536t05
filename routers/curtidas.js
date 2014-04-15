@@ -24,4 +24,12 @@ router.post('/:usuario/:artista', function(req, res) {
     });
 });
 
+router['delete']('/:usuario/:artista', function(req, res) {
+    var query = 'DELETE FROM curtida WHERE usuario = ? AND artista = ?';
+    var params = [req.params.usuario, req.params.artista];
+    dbaccess.query(query, params, function(err, result) {
+        res.send(result);
+    });
+});
+
 module.exports = router;
