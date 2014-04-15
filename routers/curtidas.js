@@ -10,11 +10,15 @@ router.get('/', function(req, res) {
     });
 });
 
+router.get('/criar', function(req, res) {
+    res.render('curtidas/form');
+});
+
 router.post('/', function(req, res) {
     var query = 'INSERT INTO curtida (usuario, artista, nota) VALUES (?, ?, ?)';
     var params = [req.body.usuario, req.body.artista, req.body.nota];
     dbaccess.query(query, params, function(err, result) {
-        res.send(result);
+        res.redirect('/curtidas');
     });
 });
 
