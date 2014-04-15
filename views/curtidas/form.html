@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html data-include="views/base.html">
+    <div data-fragment="stylesheets">
+        <link rel="stylesheet" href="/css/form.css">
+    </div>
+
     <div data-fragment="content">
         @{var edicao = !!root.usuario}
         @{var header = (edicao) ? 'Editar curtida' : 'Criar curtida';}
