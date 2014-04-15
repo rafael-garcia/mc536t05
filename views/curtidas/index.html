@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-include="views/base.html">
+    <div data-fragment="scripts">
+        <script type="text/javascript" src="js/acoesDaListagem.js"></script>
+    </div>
+
+    <div data-fragment="content">
+        <h1>Listagem de curtidas</h1>
+        <div>
+            <a href="/curtidas/criar" title="Criar curtida">
+                Criar curtida
+            </a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>usuário</th>
+                    <th>artista</th>
+                    <th>ações</th>
+                </tr>
+            </thead>
+            <tbody data-for="curtida in root.curtidas">
+                <tr class="linhaDeDados">
+                    <td>#{curtida.usuario}</td>
+                    <td>#{curtida.artista}</td>
+                    <td>
+                        <a href="/curtidas/editar/#{curtida.usuario}/#{curtida.artista}" class="acao editar">
+                            editar
+                        </a>
+                        <a data-url="/curtidas/#{curtida.usuario}/#{curtida.artista}"
+                            href="javascript:void(0);" class="acao apagar">
+                            apagar
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</html>
