@@ -24,8 +24,8 @@ router.get('/criar', function(req, res) {
 });
 
 router.post('/:login', function(req, res) {
-    var query = 'UPDATE usuario SET uri = ?, nome = ?, cidade = ? WHERE login = ?';
-    var params = [req.body.uri, req.body.nome, req.body.cidade, req.params.login];
+    var query = 'UPDATE usuario SET login = ?, uri = ?, nome = ?, cidade = ? WHERE login = ?';
+    var params = [req.body.login, req.body.uri, req.body.nome, req.body.cidade, req.params.login];
     dbaccess.query(query, params, function(err, result) {
         res.redirect('/usuarios');
     });
