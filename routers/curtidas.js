@@ -22,11 +22,19 @@ router.post('/', function(req, res) {
     });
 });
 
+router.get('/editar/:usuario/:artista', function(req, res) {
+    var query = 'SELECT * FROM curtida WHERE usuario = ? AND artista = ?';
+    var params = [req.params.usuario, req.params.artista];
+    dbaccess.query(query, params, function(err, result) {
+        res.render('curtidas/form', result[0]);
+    });
+});
+
 router.post('/:usuario/:artista', function(req, res) {
     var query = 'UPDATE curtida SET usuario = ?, artista = ?, nota = ? WHERE usuario = ? AND artista = ?';
     var params = [req.body.usuario, req.body.artista, req.body.nota, req.params.usuario, req.params.artista];
     dbaccess.query(query, params, function(err, result) {
-        res.send(result);
+        res.redirect('/curtidas');
     });
 });
 
