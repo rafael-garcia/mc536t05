@@ -1,11 +1,24 @@
 var express = require('express');
 var dbaccess = require('../dbaccess');
+var fs = require('fs');
+var util = require('util');
 var router = express.Router();
 
 router.get('/', function(req, res) {
     dbaccess.query('SELECT * FROM artista', function(err, rows, fields) {
         res.render('artistas/index', {
             artistas: rows
+        });
+
+        fs.unlinkSync("./normalizados.txt");
+        rows.forEach(function(el) {
+            var original = util.format('original: %s (%d) - ', el.nome_artistico, el.nome_artistico.length);
+            var normal = decodeURIComponent(el.nome_artistico);
+            var decoded = util.format('decoded: %s (%d) \n', normal, normal.length);
+            fs.appendFileSync("./normalizados.txt", original);
+            fs.appendFileSync("./normalizados.txt", decoded);
+
+
         });
     });
 });

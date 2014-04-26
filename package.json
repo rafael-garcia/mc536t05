@@ -13,6 +13,7 @@
     "body-parser": "~1.0.0",
     "debug": "~0.7.4",
     "mysql": "2.1.1",
-    "gaikan": "2.0.0-rc2"
+    "gaikan": "2.0.0-rc2",
+    "levenshtein": "^1.0.4"
   }
 }
