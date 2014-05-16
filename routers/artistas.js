@@ -91,7 +91,7 @@ var extracaoDadosPassoPais = function(mbid, nomeArtistico, paisProcurado, cidade
             var paisBanco = resultArr[0];
             console.log("paisBanco:", paisBanco); 
             var cidadeCombinandoPais = new Cidade(cidadeProcurada.nome, paisBanco);
-            extracaoDadosPassoCidade(mbid, nomeArtistico, cidadeCombinandoPais);
+                (mbid, nomeArtistico, cidadeCombinandoPais);
         } else {
             console.log("pais ainda não existente. gravando...", paisProcurado); 
 
@@ -100,6 +100,7 @@ var extracaoDadosPassoPais = function(mbid, nomeArtistico, paisProcurado, cidade
                     console.log("sucesso insert pais:", result);
 
                     var cidadeNovoPais = new Cidade(cidadeProcurada.nome, result);
+                    console.log("cidadeNovoPais:", cidadeNovoPais);
                     extracaoDadosPassoCidade(mbid, nomeArtistico, cidadeNovoPais);
                 } else {
                     console.log("erro insert pais:", err);
@@ -117,33 +118,77 @@ router.get('/', function(req, res) {
     });
 });
 
+var mbrainzFunction = function(json) {
+    var pais, nomePais, cidade, nomeCidade, nomeArtistico, mbContent = JSON.parse(json);
+    console.log(mbContent);
+
+
+    if (mbContent.area) {
+        nomePais = mbContent.area.name;
+    }
+
+    pais = new Pais(nomePais);
+    
+    // FIXME: nao vai funcionar pq no banco temos um NOTNULL. nesse caso, ignorar cidade para o artista
+    nomeCidade = mbContent["begin_area"] ? mbContent["begin_area"].name : null;
+    cidade = new Cidade(nomeCidade);
+
+    nomeArtistico = mbContent.name; 
+
+    console.log(pais);
+    console.log(cidade);
+    console.log(nomeArtistico);
+
+    extracaoDadosPassoPais(mbid, nomeArtistico, pais, cidade);
+}
+
 router.get('/extrair/:artista', function(req, res) {
-    lastfm.getArtistInfo(req.params.artista, function(err, result) {
-        var content = JSON.parse(result.body);
-        var mbid = content.artist.mbid;
-        
-        mbrainz.getArtistInfo(mbid, function(err, result) {
-            var mbContent = JSON.parse(result.body);
-            console.log(mbContent);
+    var artistName = req.params.artista;
+    lastfm.getArtistInfo(artistName, function(err, result) {
+        if (result) {
+            if (result.body) {
+                console.log("result.body", result.body);
 
-            var nomePais = mbContent.area.name;
-            var pais = new Pais(nomePais);
-            
-            // FIXME: nao vai funcionar pq no banco temos um NOTNULL. nesse caso, ignorar cidade para o artista
-            var nomeCidade = mbContent["begin_area"] ? mbContent["begin_area"].name : null;
-            var cidade = new Cidade(nomeCidade);
+                var content = JSON.parse(result.body);
+                var mbid = content.artist.mbid;
 
-            var nomeArtistico = mbContent.name;
+                if (mbid) {
+                    mbrainz.getArtistInfo(mbid, function(err, result) {
+                        if (result) {
+                            if (result.body) {
+                                console.log("result.body", result.body);
+                                
+                                mbrainzFunction(result.body);
 
-            console.log(pais);
-            console.log(cidade);
-            console.log(nomeArtistico);
+                            } else {
+                                console.log("result.body mbrainz **vazio**");    
+                            }
+                        } else {
+                            console.log("erro extração MBRAINZ");
+                        }
+                    });
+                } else {
+                    mbrainz.getArtistByName(artistName, function(err, result) {
+                        if (result) {
+                            if (result.body) {
+                                console.log("result.body MBRAINZ 1st:", result.body);
+                                
+                                mbrainzFunction(result.body);
 
-            extracaoDadosPassoPais(mbid, nomeArtistico, pais, cidade);
-
-            var query = 'UPDATE artista SET pais_id = ? WHERE nome_artistico = ?';
-            var params = [req.body.nomeArtistico, req.params.nomeArtistico];
-        });
+                            } else {
+                                console.log("result.body mbrainz **vazio**");    
+                            }
+                        } else {
+                            console.log("erro extração MBRAINZ");
+                        }
+                    });
+                }
+            } else {
+                console.log("result.body lastfm **vazio**");    
+            }
+        } else {
+            console.log("erro extração LASTFM");
+        }
     });
 });
 
