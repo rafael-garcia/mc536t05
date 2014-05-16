@@ -25,7 +25,7 @@ searcher.getArtistInfoByBatch = function(artists) {
         self.getArtistInfo(corrigido, function(err, result) {
             var body = JSON.parse(result.body);
             var artist = body.artist || {};
-            artist['nome_artistico'] = nome;
+            artist.nomeArtistico = nome;
             self.emit('artistInfo', err, artist);
         });
     });
