@@ -28,9 +28,9 @@ module.exports = {
 		dbaccess.query('INSERT INTO pais (nome) VALUES (?)', arr, callback);
 	},
 	
-	searchArtistaById: function(artista, callback) {
-		var arr = [artista.nomeArtistico];
-		dbaccess.query('SELECT * FROM artista WHERE mbid = ?', arr, callback);
+	searchArtista: function(artista, callback) {
+		var arr = [artista.mbid, artista.nomeArtistico];
+		dbaccess.query('SELECT * FROM artista WHERE mb_id = ? OR nome_artistico = ?', arr, callback);
 	},
 	insertArtista: function(artista, callback) {
 		var arr = [artista.mbid, artista.nomeArtistico, artista.cidade.nome];

@@ -9,20 +9,32 @@ var dao = require('../dao');
 var dbaccess = require('../dbaccess');
 
 var extracaoDadosPassoArtista = function(artistaProcurado) {
-    dao.searchArtistaById(artistaProcurado, function(err, artistaBanco) {
-        if (artistaBanco) {
-            if (artistaProcurado.diff(artistaBanco())) {
+    dao.searchArtista(artistaProcurado, function(err, resultArr) {
+        if (err) {
+            console.log("ABORTANDO: erro insert artista:", err);
+            return;
+        }
+
+        if (resultArr.length === 1) {
+            var artistaBanco = resultArr[0];
+            console.log("artistaBanco:", artistaBanco); 
+            
+            if (artistaProcurado.diff(artistaBanco)) {
+                console.log("artistas diferem"); 
+                
                 dao.updateArtistaById(artistaProcurado, artistaBanco.mbid, 
                     function(err, result) {
                         if (result) {
                             console.log("sucesso update artista:", result); 
+                        } else {
+                            console.log("erro update artista:", err); 
                         }
                     });
             } else {
                 console.log("artista já existe na base e é idêntico"); 
             }
         } else {
-            console.log("artista ainda não existente. gravando..."); 
+            console.log("artista ainda não existente. gravando...", artistaProcurado); 
 
             dao.insertArtista(artistaProcurado, function(err, result) {
                 if (result) {
@@ -37,13 +49,21 @@ var extracaoDadosPassoArtista = function(artistaProcurado) {
 
 var extracaoDadosPassoCidade = function(mbid, nomeArtistico, cidadeProcurada) {
     console.log("extracaoDadosPassoCidade"); 
-    dao.searchCidade(cidadeProcurada, function(err, cidadeBanco) {
-        if (cidadeBanco) {
+    dao.searchCidade(cidadeProcurada, function(err, resultArr) {
+        if (err) {
+            console.log("ABORTANDO: erro insert cidade:", err);
+            return;
+        }
+        
+        if (resultArr.length === 1) {
+            var cidadeBanco = resultArr[0];
+            console.log("cidadeBanco:", cidadeBanco); 
             var artistaProcurado = new Artista(mbid, nomeArtistico, cidadeBanco.nome);
             extracaoDadosPassoArtista(artistaProcurado);
 
         } else {
-            console.log("possivel erro insert cidade:", err);
+            console.log("cidade ainda não existente. gravando...", cidadeProcurada); 
+
             dao.insertCidade(cidadeProcurada, function(err, result) {
                 if (result) {
                     console.log("sucesso insert cidade:", result); 
@@ -61,12 +81,20 @@ var extracaoDadosPassoCidade = function(mbid, nomeArtistico, cidadeProcurada) {
 var extracaoDadosPassoPais = function(mbid, nomeArtistico, paisProcurado, cidadeProcurada) {
     console.log("extracaoDadosPassoPais"); 
     
-    dao.searchPais(paisProcurado, function(err, paisBanco) {
-        if (paisBanco) {
+    dao.searchPais(paisProcurado, function(err, resultArr) {
+        if (err) {
+            console.log("ABORTANDO: erro insert pais:", err);
+            return;
+        }
+
+        if (resultArr.length === 1) {
+            var paisBanco = resultArr[0];
+            console.log("paisBanco:", paisBanco); 
             var cidadeCombinandoPais = new Cidade(cidadeProcurada.nome, paisBanco);
             extracaoDadosPassoCidade(mbid, nomeArtistico, cidadeCombinandoPais);
         } else {
-            console.log("possivel erro insert pais:", err);
+            console.log("pais ainda não existente. gravando...", paisProcurado); 
+
             dao.insertPais(paisProcurado, function(err, result) {
                 if (result) {
                     console.log("sucesso insert pais:", result);
@@ -101,7 +129,8 @@ router.get('/extrair/:artista', function(req, res) {
             var nomePais = mbContent.area.name;
             var pais = new Pais(nomePais);
             
-            var nomeCidade = mbContent["begin_area"].name;
+            // FIXME: nao vai funcionar pq no banco temos um NOTNULL. nesse caso, ignorar cidade para o artista
+            var nomeCidade = mbContent["begin_area"] ? mbContent["begin_area"].name : null;
             var cidade = new Cidade(nomeCidade);
 
             var nomeArtistico = mbContent.name;
