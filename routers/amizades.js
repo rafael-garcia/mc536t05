@@ -1,6 +1,7 @@
 var express = require('express');
 var dbaccess = require('../dbaccess');
 var router = express.Router();
+var lastfm = 
 
 router.get('/', function(req, res) {
     dbaccess.query('SELECT * FROM amizade', function(err, rows, fields) {

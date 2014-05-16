@@ -1,4 +1,6 @@
 var util = require("util");
+var request = require("request");
+
 var API_KEY = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=%s&api_key=8265bfa09c0cf54acaa62dd704340581&format=json";
 
 module.exports = {

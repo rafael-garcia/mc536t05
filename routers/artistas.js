@@ -1,11 +1,23 @@
 var express = require('express');
 var dbaccess = require('../dbaccess');
 var router = express.Router();
+var lastfm = require("../LastfmSearcher");
+var mbrainz = require("../MusicBrainzSearcher");
 
 router.get('/', function(req, res) {
     dbaccess.query('SELECT * FROM artista', function(err, rows, fields) {
         res.render('artistas/index', {
             artistas: rows
+        });
+    });
+});
+
+router.get('/extrair/:artista', function(req, res) {
+    lastfm.getArtistInfo(req.params.artista, function(err, result) {
+        var content = JSON.parse(result.body);
+        mbrainz.getArtistInfo(content.artist.mbid, function(err, result) {
+            var mbContent = JSON.parse(result.body);
+            console.log(mbContent);
         });
     });
 });
