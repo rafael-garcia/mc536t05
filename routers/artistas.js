@@ -174,7 +174,7 @@ var mbrainzFunction = function(mbid, nomeArtistico, json, type) {
     extracaoDadosPassoPais(mbid, nomeArtistico, pais, cidade);
 };
 
-var processarResultado = function(nomeArtistico, result) {
+var processarResultado = function(result, nomeArtistico) {
     if (result) {
         if (result.body) {
             console.log("result.body", result.body);
@@ -199,12 +199,15 @@ var processarResultado = function(nomeArtistico, result) {
                 mbrainz.getArtistByName(nomeArtistico, function(err, result) {
                     if (result) {
                         if (result.body) {
+                            console.log("buscando DIRETAMENTE no MBRAINZ:", nomeArtistico, "\n"); 
                             console.log("result.body MBRAINZ-search", result.body);
                             mbrainzFunction(mbid, nomeArtistico, result.body, "LIST");
                         } else {
+                            console.log("buscando DIRETAMENTE no MBRAINZ:", nomeArtistico, "\n"); 
                             console.log("result.body MBRAINZ-search **vazio**");    
                         }
                     } else {
+                        console.log("buscando DIRETAMENTE no MBRAINZ:", nomeArtistico, "\n"); 
                         console.log("erro extração MBRAINZ");
                     }
                 });
