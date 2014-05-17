@@ -6,7 +6,7 @@ module.exports = {
             host: 'localhost',
             user: 'root',
             database: 'mc536',
-            port: 3307
+            port: 3306
         });
         return connection;
     },

@@ -148,55 +148,70 @@ var mbrainzFunction = function(mbid, nomeArtistico, json, type) {
     console.log(nomeArtistico);
 
     extracaoDadosPassoPais(mbid, nomeArtistico, pais, cidade);
-}
+};
+
+var processarResultado = function(nomeArtistico, result) {
+    if (result) {
+        if (result.body) {
+            console.log("result.body", result.body);
+
+            var content = JSON.parse(result.body);
+            var mbid = content.artist.mbid;
+
+            if (mbid) {
+                mbrainz.getArtistInfo(mbid, function(err, result) {
+                    if (result) {
+                        if (result.body) {
+                            console.log("result.body", result.body);
+                            
+                            mbrainzFunction(mbid, nomeArtistico, result.body, "DIRECT");
+
+                        } else {
+                            console.log("result.body mbrainz **vazio**");    
+                        }
+                    } else {
+                        console.log("erro extração MBRAINZ");
+                    }
+                });
+            } else {
+                mbrainz.getArtistByName(nomeArtistico, function(err, result) {
+                    if (result) {
+                        if (result.body) {
+                            console.log("result.body MBRAINZ 1st:", result.body);
+                            mbrainzFunction(mbid, nomeArtistico, result.body, "LIST");
+                        } else {
+                            console.log("result.body mbrainz **vazio**");    
+                        }
+                    } else {
+                        console.log("erro extração MBRAINZ");
+                    }
+                });
+            }
+        } else {
+            console.log("result.body lastfm **vazio**");    
+        }
+    } else {
+        console.log("erro extração LASTFM");
+    }
+};
 
 router.get('/extrair/:artista', function(req, res) {
     var nomeArtistico = req.params.artista;
     lastfm.getArtistInfo(nomeArtistico, function(err, result) {
-        if (result) {
-            if (result.body) {
-                console.log("result.body", result.body);
+        processarResultado(result, nomeArtistico);
+    });
+});
 
-                var content = JSON.parse(result.body);
-                var mbid = content.artist.mbid;
-
-                if (mbid) {
-                    mbrainz.getArtistInfo(mbid, function(err, result) {
-                        if (result) {
-                            if (result.body) {
-                                console.log("result.body", result.body);
-                                
-                                mbrainzFunction(mbid, nomeArtistico, result.body, "DIRECT");
-
-                            } else {
-                                console.log("result.body mbrainz **vazio**");    
-                            }
-                        } else {
-                            console.log("erro extração MBRAINZ");
-                        }
-                    });
-                } else {
-                    mbrainz.getArtistByName(nomeArtistico, function(err, result) {
-                        if (result) {
-                            if (result.body) {
-                                console.log("result.body MBRAINZ 1st:", result.body);
-                                
-                                mbrainzFunction(mbid, nomeArtistico, result.body, "LIST");
-
-                            } else {
-                                console.log("result.body mbrainz **vazio**");    
-                            }
-                        } else {
-                            console.log("erro extração MBRAINZ");
-                        }
-                    });
-                }
-            } else {
-                console.log("result.body lastfm **vazio**");    
-            }
-        } else {
-            console.log("erro extração LASTFM");
-        }
+router.get('/extrair', function(req, res) {
+    var query = 'SELECT nome_artistico FROM artista';
+    dbaccess.query(query, function(err, rows) {
+        var artistas = rows.map(function(row) {
+            return row['nome_artistico'];
+        });
+        lastfm.on('artistInfo', function(err, result, nomeArtistico) {
+            processarResultado(result, nomeArtistico);
+        });
+        lastfm.getArtistInfoByBatch(artistas);
     });
 });
 
