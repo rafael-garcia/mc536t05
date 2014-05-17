@@ -4,7 +4,7 @@ module.exports = function Cidade(nome, pais) {
 	this.nome = nome ? nome : null;
 	this.pais = pais ? pais : new Pais();
 
-	this.diff = function(other) {
+	Cidade.prototype.diff = function(other) {
 		return this.nome != other.nome;
 	}
 };
