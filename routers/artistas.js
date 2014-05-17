@@ -99,6 +99,8 @@ var extracaoDadosPassoPais = function(mbid, nomeArtistico, paisProcurado, cidade
                 if (result) {
                     console.log("sucesso insert pais:", result);
 
+                    paisProcurado.id = result.insertId;
+                    
                     var cidadeNovoPais = new Cidade(cidadeProcurada.nome, result);
                     console.log("cidadeNovoPais:", cidadeNovoPais);
                     extracaoDadosPassoCidade(mbid, nomeArtistico, cidadeNovoPais);
@@ -118,23 +120,29 @@ router.get('/', function(req, res) {
     });
 });
 
-var mbrainzFunction = function(json) {
+var mbrainzFunction = function(mbid, nomeArtistico, json, type) {
     var pais, nomePais, cidade, nomeCidade, nomeArtistico, mbContent = JSON.parse(json);
     console.log(mbContent);
 
-
-    if (mbContent.area) {
-        nomePais = mbContent.area.name;
+    if (type === "LIST") {
+        if (mbContent.artist.length > 0) {
+            mbContent = mbContent.artist[0]; // sempre o mais relevante
+            mbid = mbContent.id;
+        } else {
+            return; // não encontrado
+        }
     }
 
+    nomePais = mbContent.area ? mbContent.area.name : null;
     pais = new Pais(nomePais);
     
     // FIXME: nao vai funcionar pq no banco temos um NOTNULL. nesse caso, ignorar cidade para o artista
     nomeCidade = mbContent["begin_area"] ? mbContent["begin_area"].name : null;
     cidade = new Cidade(nomeCidade);
 
-    nomeArtistico = mbContent.name; 
+    nomeArtistico = mbContent.name;
 
+    console.log("***-- MusicBrainz --***");
     console.log(pais);
     console.log(cidade);
     console.log(nomeArtistico);
@@ -143,8 +151,8 @@ var mbrainzFunction = function(json) {
 }
 
 router.get('/extrair/:artista', function(req, res) {
-    var artistName = req.params.artista;
-    lastfm.getArtistInfo(artistName, function(err, result) {
+    var nomeArtistico = req.params.artista;
+    lastfm.getArtistInfo(nomeArtistico, function(err, result) {
         if (result) {
             if (result.body) {
                 console.log("result.body", result.body);
@@ -158,7 +166,7 @@ router.get('/extrair/:artista', function(req, res) {
                             if (result.body) {
                                 console.log("result.body", result.body);
                                 
-                                mbrainzFunction(result.body);
+                                mbrainzFunction(mbid, nomeArtistico, result.body, "DIRECT");
 
                             } else {
                                 console.log("result.body mbrainz **vazio**");    
@@ -168,12 +176,12 @@ router.get('/extrair/:artista', function(req, res) {
                         }
                     });
                 } else {
-                    mbrainz.getArtistByName(artistName, function(err, result) {
+                    mbrainz.getArtistByName(nomeArtistico, function(err, result) {
                         if (result) {
                             if (result.body) {
                                 console.log("result.body MBRAINZ 1st:", result.body);
                                 
-                                mbrainzFunction(result.body);
+                                mbrainzFunction(mbid, nomeArtistico, result.body, "LIST");
 
                             } else {
                                 console.log("result.body mbrainz **vazio**");    
