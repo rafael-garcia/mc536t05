@@ -93,7 +93,7 @@ var extracaoDadosPassoPais = function(mbid, nomeArtistico, paisProcurado, cidade
 
     if (!paisProcurado.nome) {
         console.log("pais SEM dados. ignorando\n");
-        var cidadeNovoPais = new Cidade(cidadeProcurada.nome, result);
+        var cidadeNovoPais = new Cidade(cidadeProcurada.nome);
         console.log("cidadeNovoPais:", cidadeNovoPais, "\n");
         extracaoDadosPassoCidade(mbid, nomeArtistico, cidadeNovoPais);
         return;
