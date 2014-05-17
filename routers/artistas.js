@@ -91,7 +91,7 @@ var extracaoDadosPassoPais = function(mbid, nomeArtistico, paisProcurado, cidade
             var paisBanco = resultArr[0];
             console.log("paisBanco:", paisBanco); 
             var cidadeCombinandoPais = new Cidade(cidadeProcurada.nome, paisBanco);
-                (mbid, nomeArtistico, cidadeCombinandoPais);
+                extracaoDadosPassoCidade(mbid, nomeArtistico, cidadeCombinandoPais);
         } else {
             console.log("pais ainda não existente. gravando...", paisProcurado); 
 
