@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var config = require('./config');
+var config = require('./config.json');
 
 module.exports = {
     connection: function() {

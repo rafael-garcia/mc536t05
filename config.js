@@ -1,7 +1,7 @@
-var fs, configFile, config;
+var fs, config;
 
 fs = require('fs');
-configFile = fs.readFileSync("config.json");
-config = JSON.parse(config);
+config = fs.readFileSync("./config.json", {encoding: "UTF-8"});
+console.log(config);
 
 module.exports = config;
