@@ -1,0 +1,8 @@
+{
+  "database": {
+    "host" : "localhost",
+    "user": "root",
+    "database": "mc536",
+    "port" : 3307
+  }
+}
