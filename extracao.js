@@ -14,9 +14,6 @@ var mbrainzFunction = function(mbid, nomeArtistico, json, type) {
         if (mbContent.artist.length > 0) {
             mbContent = mbContent.artist[0]; // sempre o mais relevante
             mbid = mbContent.id;
-            // console.log("\nmbContent LIST:", mbContent, "\n");
-            // console.log("\nmbContent -> begin_area:", mbContent["begin_area"], "\n");
-            // console.log("\nmbContent -> 'begin_area':", mbContent["'begin_area'"], "\n");
         } else {
             return; // não encontrado
         }
