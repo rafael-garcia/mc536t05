@@ -10,7 +10,7 @@ var fixName = function(name) {
     name = decodeURIComponent(name);
     name = name.replace(/_/g, ' ');
     name = name.replace(/\(\w+\)/g, '');
-    name = name.replace("!", "");
+    name = name.replace("!", ""); // api does not support "!" char
     return name;
 };
 
