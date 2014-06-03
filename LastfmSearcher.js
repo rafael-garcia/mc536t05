@@ -28,4 +28,5 @@ searcher.getArtistInfoByBatch = function(artists) {
     });
 };
 
+// expõe o emissor de eventos
 module.exports = searcher;

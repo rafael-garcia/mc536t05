@@ -10,7 +10,7 @@ var dbaccess = require('../dbaccess');
 var extracao = require('../extracao.js');
 
 router.get('/extrair/:artista', function(req, res) {
-    var nomeArtistico = req.params.artista;
+    var nomeArtistico = req.params.artista; // nome vindo da URL
     lastfm.getArtistInfo(nomeArtistico, function(err, result) {
         extracao.processarResultado(result, nomeArtistico);
     });
@@ -19,13 +19,13 @@ router.get('/extrair/:artista', function(req, res) {
 router.get('/extrair', function(req, res) {
     var query = 'SELECT nome_artistico FROM artista';
     dbaccess.query(query, function(err, rows) {
-        var artistas = rows.map(function(row) {
+        var artistas = rows.map(function(row) { // varre a base de artistas
             return row['nome_artistico'];
         });
-        lastfm.on('artistInfo', function(err, result, nomeArtistico) {
+        lastfm.on('artistInfo', function(err, result, nomeArtistico) { // listener de evento do lastfm
             extracao.processarResultado(result, nomeArtistico);
         });
-        lastfm.getArtistInfoByBatch(artistas);
+        lastfm.getArtistInfoByBatch(artistas); // dispara evento do lastfm
     });
 });
 

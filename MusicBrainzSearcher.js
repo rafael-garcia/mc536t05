@@ -23,12 +23,7 @@ module.exports = {
     },
     getArtistByName: function(artista, callback) {
     	setTimeout(function() {
-			console.log("before:", artista);
-	    	var corrigido = fixName(artista);
-	    	console.log("@@@@after:", corrigido);
-			console.log("$$$$$$$$ WHAT IF:", encodeURIComponent(corrigido));
-
-	    	var query = util.format(QUERY_URL, corrigido);
+	    	var corrigido = fixName(artista), query = util.format(QUERY_URL, corrigido);
 	        request.get(query, callback);
     	}, 3000);
     }
