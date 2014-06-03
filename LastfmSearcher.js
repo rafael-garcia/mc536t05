@@ -23,7 +23,7 @@ searcher.getArtistInfoByBatch = function(artists) {
     artists.forEach(function(nome) {
         var corrigido = fixName(nome);
         self.getArtistInfo(corrigido, function(err, result) {
-            self.emit('artistInfo', err, result, nome);
+            self.emit('artistInfo', err, result, corrigido);
         });
     });
 };
