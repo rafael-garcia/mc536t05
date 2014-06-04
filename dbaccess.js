@@ -12,5 +12,18 @@ var pool = mysql.createPool({
 module.exports = {
     query: function() {
         return pool.query.apply(pool, arguments);
+    },
+    chainPattern: function(err, result, onSuccess, onError) {
+        if (err) {
+            if (onError) {
+                onError();
+            } else {
+                throw err;
+            }
+        } else {
+            if (onSuccess) {
+                onSuccess();
+            }
+        }
     }
 };

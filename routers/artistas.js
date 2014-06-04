@@ -1,11 +1,7 @@
+var Sync = require('sync');
 var express = require('express');
 var router = express.Router();
 var lastfm = require("../LastfmSearcher");
-var mbrainz = require("../MusicBrainzSearcher");
-var Pais = require("../entity/pais");
-var Cidade = require("../entity/cidade");
-var Artista = require("../entity/artista");
-var dao = require('../dao');
 var dbaccess = require('../dbaccess');
 var extracao = require('../extracao.js');
 
@@ -22,8 +18,8 @@ router.get('/extrair', function(req, res) {
         var artistas = rows.map(function(row) { // varre a base de artistas
             return row['nome_artistico'];
         });
-        lastfm.on('artistInfo', function(err, result, nomeArtistico) { // listener de evento do lastfm
-            extracao.processarResultado(result, nomeArtistico);
+        lastfm.on('artistInfo', function(err, result, nomeCorrigido, nomeBanco) { // listener de evento do lastfm
+            extracao.processarResultado(result, nomeCorrigido, nomeBanco);
         });
         lastfm.getArtistInfoByBatch(artistas); // dispara evento do lastfm
     });
