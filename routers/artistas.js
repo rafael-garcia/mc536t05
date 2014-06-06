@@ -61,4 +61,13 @@ router['delete']('/:nomeArtistico', function(req, res) {
     });
 });
 
+router.get('/', function(req, res) {
+    var query = 'SELECT * FROM artista';
+    dbaccess.query(query, function(err, rows) {
+        res.render('artistas/index', {
+            artistas: rows
+        });
+    });
+});
+
 module.exports = router;
