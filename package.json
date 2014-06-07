@@ -6,14 +6,15 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
-    "mysql": "2.1.1",
+    "express": "~4.0.0",
     "gaikan": "2.0.0-rc2",
-    "request": "^2.34.0"
+    "morgan": "~1.0.0",
+    "mysql": "2.1.1",
+    "request": "^2.34.0",
+    "static-favicon": "~1.0.0",
+    "sync": "^0.2.2"
   }
 }

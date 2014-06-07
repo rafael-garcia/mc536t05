@@ -5,6 +5,7 @@ var pool = mysql.createPool({
     connectionLimit : 80, // lazily created (on demand). round robin
     host            : config.database.host,
     user            : config.database.user,
+    password		: config.database.password,
     database        : config.database.database,
     port            : config.database.port
 });

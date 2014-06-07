@@ -1,8 +1,9 @@
 {
   "database": {
-    "host" : "localhost",
-    "user": "root",
+    "host": "143.106.196.24",
+    "user": "user",
+    "password": "senha1234",
     "database": "mc536",
-    "port" : 3307
+    "port": 3307
   }
 }
