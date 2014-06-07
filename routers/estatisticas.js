@@ -13,4 +13,16 @@ router.get('/artistas/media/:artista', function(req, res) {
 		}
 	});	
 });
+
+router.get('/artistas/desvioPadrao/:artista', function(req, res) {
+	var query = 'SELECT std(nota) FROM curtida WHERE artista = ?';
+	var params = [req.params.artista];
+    dbaccess.query(query, params, function(err, result) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(result);
+		}
+	});	
+});
 module.exports = router;
