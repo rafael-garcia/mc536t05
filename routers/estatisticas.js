@@ -110,4 +110,18 @@ router.get('/artistas/maiorVariabilidade', function(req, res) {
 	});
 });
 
+router.get('/generos/maisPopulares', function(req, res) {
+	var query = "SELECT nome, count(*) AS 'popularidade' FROM genero_musical GROUP BY nome ORDER BY popularidade DESC LIMIT ?";
+	var limit = 5;
+	var params = [limit];
+	dbaccess.query(query, params, function(err, result) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(result);
+		}
+	});
+});
+
+
 module.exports = router;
