@@ -2,7 +2,15 @@ menu {
 	width: 25%;
 }
 
+menu a {
+	display: block;
+	width: 100%;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
 .visualizacao {
 	display: inline-block;
-	width: 70%;
+	width: 75%;
+	float: right;
 }
