@@ -4,6 +4,6 @@
     "user": "user",
     "password": "senha1234",
     "database": "mc536",
-    "port": 3307
+    "port": 3306
   }
 }
