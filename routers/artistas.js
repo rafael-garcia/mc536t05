@@ -71,7 +71,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/listarNomes', function(req, res) {
-    var query = 'SELECT nome_artistico FROM artista';
+    var query = 'SELECT nome_artistico FROM artista ORDER BY nome_artistico';
     dbaccess.query(query, function(err, rows) {
         rows = rows.map(function(row) {
             var nome = row.nome_artistico;
