@@ -44,6 +44,17 @@ $(function() {
 		}
 	};
 
+	var OpcoesDefault = {
+		animacao: {
+			duration: 600,
+			easing: 'out'
+		},
+		eixoVertical: {
+			minValue: 0,
+			maxValue: 5			
+		}
+	}
+
 	var MediaPorArtista = {
 		dados: function(nomeOriginal, nomeCorrigido, callback) {
 			$.getJSON('/estatisticas/artistas/media/' + nomeOriginal, function(estatistica) {
@@ -56,15 +67,29 @@ $(function() {
 		},
 		options: {
 			title: $('menu .mediaPorArtista').text(),
-			animation: {
-				duration: 600,
-				easing: 'out'
-			},
+			animation: OpcoesDefault.animacao,
+			vAxis: OpcoesDefault.eixoVertical
+		},
+	};
+
+	var DesvioPadraoPorArtista = {
+		dados: function(nomeOriginal, nomeCorrigido, callback) {
+			$.getJSON('/estatisticas/artistas/desvioPadrao/' + nomeOriginal, function(estatistica) {
+				var data = google.visualization.arrayToDataTable([
+					['Artista', 'Desvio padrao'],
+					[nomeCorrigido, estatistica.desvio_padrao]
+				]);
+				callback(data);
+			});
+		},
+		options: {
+			title: $('menu .desvioPadraoPorArtista').text(),
+			animation: OpcoesDefault.animacao,
 			vAxis: {
 				minValue: 0,
-				maxValue: 5
+				maxValue: 2
 			}
-		},
+		}
 	};
 
 	var Estatisticas = {
@@ -80,15 +105,25 @@ $(function() {
 					});
 				});
 			});
-		}
-	};
+		},
 
-	var desvioPadraoPorArtista = function() {
-		alert('desvio');
+		desvioPadraoPorArtista: function() {
+			Backend.artistas(function(artistas) {
+				SelecaoDeArtistas.preencherSeletor(artistas);
+				SelecaoDeArtistas.adicionarSeletor();
+				SelecaoDeArtistas.associarEvento(function() {
+					var nomeOriginal = $(this).val();
+					var nomeCorrigido = $(this).find(':selected').text();
+					DesvioPadraoPorArtista.dados(nomeOriginal, nomeCorrigido, function(data) {
+						Visualizacao.grafico().draw(data, DesvioPadraoPorArtista.options);
+					});
+				});
+			});
+		}
 	};
 
 	google.setOnLoadCallback(function() {
 		$('menu .mediaPorArtista').click(Estatisticas.mediaPorArtista);
-		$('menu .desvioPadraoPorArtista').click(desvioPadraoPorArtista);
+		$('menu .desvioPadraoPorArtista').click(Estatisticas.desvioPadraoPorArtista);
 	});
 });
