@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-include="views/base.html">
+	<div data-fragment="stylesheets">
+		<link rel="stylesheet" href="/css/index.css" />
+		<link rel="stylesheet" href="/css/estatisticas.css" />
+	</div>
+
+	<div data-fragment="scripts">
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+		  google.load("visualization", "1", {packages:["corechart"]});
+		  google.setOnLoadCallback(drawChart);
+		  function drawChart() {
+		    var data = google.visualization.arrayToDataTable([
+		      ['Year', 'Sales', 'Expenses'],
+		      ['2004',  1000,      400],
+		      ['2005',  1170,      460],
+		      ['2006',  660,       1120],
+		      ['2007',  1030,      540]
+		    ]);
+
+		    var options = {
+		      title: 'Company Performance',
+		      hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+		    };
+
+		    var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+		    chart.draw(data, options);
+		  }
+		</script>		
+	</div>
+
+	<div data-fragment="content">
+		<menu type="list">
+		    <li>
+		        <a href="javascript:void(0)">Média de ratings de um artista</a>
+		    </li>
+		    <li>
+		        <a href="javascript:void(0)">Desvio padrão dos ratings de um artista</a>
+		    </li>
+		    <li>
+		        <a href="javascript:void(0)">Artistas com os maiores ratings médios</a>
+		    </li>		    
+		</menu>
+
+		<div class="visualizacao">
+			<div id="chart"></div>
+		</div>
+	</div>
+</html>

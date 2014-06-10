@@ -2,6 +2,10 @@ var express = require('express');
 var dbaccess = require('../dbaccess');
 
 var router = express.Router();
+router.get('/', function(req, res) {
+	res.render('estatisticas/index');
+});
+
 router.get('/artistas/media/:artista', function(req, res) {
 	var query = 'SELECT avg(nota) as media FROM curtida WHERE artista = ?';
 	var params = [req.params.artista];
