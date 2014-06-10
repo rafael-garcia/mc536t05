@@ -140,6 +140,31 @@ $(function() {
 		}
 	};
 
+	var MaioresRatingsComCurtidas = {
+		dados: function(callback) {
+			$.getJSON('/estatisticas/artistas/maioresMediasComMultiplasCurtidas', function(estatisticas) {
+				var mapeamento = estatisticas.map(function(estatistica) {
+					return [estatistica.artista, estatistica.rating_medio];
+				});
+				mapeamento.unshift(['Artista', 'Rating médio']);
+				var data = google.visualization.arrayToDataTable(mapeamento);
+				callback(data);
+			});
+		},
+		options: {
+			title: $('menu .maioresRatingsComCurtidas').text(),
+			animation: OpcoesDefault.animacao,
+			vAxis: OpcoesDefault.eixoVertical,
+			height: OpcoesDefault.altura,
+		},
+		desenhar: function() {
+			var self = this;
+			this.dados(function(data) {
+				Visualizacao.grafico().draw(data, self.options);
+			});
+		}
+	};
+
 	var Estatisticas = {
 		mediaPorArtista: function() {
 			Backend.artistas(function(artistas) {
@@ -168,6 +193,11 @@ $(function() {
 		maioresRatings: function() {
 			SelecaoDeArtistas.removerSeletor();
 			MaioresRatings.desenhar();
+		},
+
+		maioresRatingsComCurtidas: function() {
+			SelecaoDeArtistas.removerSeletor();
+			MaioresRatingsComCurtidas.desenhar();
 		}
 	};
 
@@ -175,5 +205,6 @@ $(function() {
 		$('menu .mediaPorArtista').click(Estatisticas.mediaPorArtista);
 		$('menu .desvioPadraoPorArtista').click(Estatisticas.desvioPadraoPorArtista);
 		$('menu .maioresRatings').click(Estatisticas.maioresRatings);
+		$('menu .maioresRatingsComCurtidas').click(Estatisticas.maioresRatingsComCurtidas);
 	});
 });
