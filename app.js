@@ -13,6 +13,7 @@ var cidades = require('./routers/cidades');
 var amizades = require('./routers/amizades');
 var artistas = require('./routers/artistas');
 var curtidas = require('./routers/curtidas');
+var estatisticas = require('./routers/estatisticas');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/cidades', cidades);
 app.use('/amizades', amizades);
 app.use('/artistas', artistas);
 app.use('/curtidas', curtidas);
+app.use('/estatisticas', estatisticas);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
