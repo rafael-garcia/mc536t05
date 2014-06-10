@@ -187,7 +187,36 @@ $(function() {
 			this.dados(function(data) {
 				Visualizacao.grafico().draw(data, self.options);
 			});
-		}				
+		}
+	};
+
+	var MaiorVariabilidade = {
+		dados: function(callback) {
+			$.getJSON('/estatisticas/artistas/maiorVariabilidade', function(estatisticas) {
+				console.log('vab:', estatisticas);
+				var mapeamento = estatisticas.map(function(estatistica) {
+					return [estatistica.artista, estatistica.variabilidade];
+				});
+				mapeamento.unshift(['Artista', 'Variabilidade']);
+				var data = google.visualization.arrayToDataTable(mapeamento);
+				callback(data);
+			});
+		},
+		options: {
+			title: $('menu .maiorVariabilidade').text(),
+			animation: OpcoesDefault.animacao,
+			vAxis: {
+				minValue: 0,
+				maxValue: 2
+			},
+			height: OpcoesDefault.altura,
+		},
+		desenhar: function() {
+			var self = this;
+			this.dados(function(data) {
+				Visualizacao.grafico().draw(data, self.options);
+			});
+		}
 	};
 
 	var Estatisticas = {
@@ -228,6 +257,11 @@ $(function() {
 		maisPopulares: function() {
 			SelecaoDeArtistas.removerSeletor();
 			MaisPopulares.desenhar();
+		},
+
+		maiorVariabilidade: function() {
+			SelecaoDeArtistas.removerSeletor();
+			MaiorVariabilidade.desenhar();
 		}
 	};
 
@@ -237,5 +271,6 @@ $(function() {
 		$('menu .maioresRatings').click(Estatisticas.maioresRatings);
 		$('menu .maioresRatingsComCurtidas').click(Estatisticas.maioresRatingsComCurtidas);
 		$('menu .maisPopulares').click(Estatisticas.maisPopulares);
+		$('menu .maiorVariabilidade').click(Estatisticas.maiorVariabilidade);
 	});
 });
