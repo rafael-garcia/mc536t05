@@ -70,4 +70,17 @@ router.get('/', function(req, res) {
     });
 });
 
+router.get('/listarNomes', function(req, res) {
+    var query = 'SELECT nome_artistico FROM artista';
+    dbaccess.query(query, function(err, rows) {
+        rows = rows.map(function(row) {
+            var nome = row.nome_artistico;
+            nome = decodeURIComponent(nome);
+            nome = nome.replace(/_/g, ' ');
+            return { nomeOriginal: row.nome_artistico, nomeCorrigido: nome }
+        });
+        res.send(rows);
+    });
+});
+
 module.exports = router;
