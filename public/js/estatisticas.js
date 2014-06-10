@@ -1,7 +1,7 @@
 google.load("visualization", "1", { packages: ["corechart"] });
 
 $(function() {
-	var Estatisticas = {
+	var Visualizacao = {
 		elemento: function() {
 			return $('.visualizacao .chart')[0];
 		},
@@ -14,17 +14,38 @@ $(function() {
 		}
 	};
 
-	var mediaPorArtista = function() {
-		$.getJSON('/artistas/listarNomes', function(resultados) {
-			var seletor = $('<select />').addClass('artistas');
-			resultados.forEach(function(resultado) {
+	var SelecaoDeArtistas = {
+		seletor: function() {
+			if (!this._seletor) {
+				this._seletor = $('<select />').addClass('artistas');
+			}
+			return this._seletor;
+		},
+		preencherSeletor: function(artistas) {
+			var selecao = this;
+			artistas.forEach(function(resultado) {
 				var opcao = $('<option />')
 				opcao.text(resultado.nomeCorrigido);
 				opcao.val(resultado.nomeOriginal);
-				seletor.append(opcao);
+				selecao.seletor().append(opcao);
 			});
-			$('.visualizacao').prepend(seletor);
-			$('select.artistas').change(function() {
+		},
+		adicionarSeletor: function() {
+			$('.visualizacao').prepend(this.seletor());
+		}
+	}
+
+	var Backend = {
+		artistas: function(callback) {
+			$.getJSON('/artistas/listarNomes', callback);
+		}
+	};
+
+	var mediaPorArtista = function() {
+		Backend.artistas(function(artistas) {
+			SelecaoDeArtistas.preencherSeletor(artistas);
+			SelecaoDeArtistas.adicionarSeletor();
+			SelecaoDeArtistas.seletor().change(function() {
 				var artista = $(this).val();
 				$.getJSON('/estatisticas/artistas/media/' + artista, function(estatistica) {
 					var data = google.visualization.arrayToDataTable([
@@ -44,7 +65,7 @@ $(function() {
 						}
 					};
 
-					Estatisticas.grafico().draw(data, options);
+					Visualizacao.grafico().draw(data, options);
 				});
 			});
 		});
