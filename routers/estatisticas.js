@@ -65,7 +65,7 @@ router.get('/artistas/maioresMediasComMultiplasCurtidas', function(req, res) {
 			    row.artista = nome;
 			    return row;
 			});
-			res.send(rows);	
+			res.send(rows);
 		}
 	});
 });
@@ -78,7 +78,14 @@ router.get('/artistas/maisPopulares', function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.send(result);
+			rows = result.map(function(row) {
+			    var nome = row.artista;
+			    nome = decodeURIComponent(nome);
+			    nome = nome.replace(/_/g, ' ');
+			    row.artista = nome;
+			    return row;
+			});
+			res.send(rows);
 		}
 	});
 });

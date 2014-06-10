@@ -165,6 +165,31 @@ $(function() {
 		}
 	};
 
+	var MaisPopulares = {
+		dados: function(callback) {
+			$.getJSON('/estatisticas/artistas/maisPopulares', function(estatisticas) {
+				var mapeamento = estatisticas.map(function(estatistica) {
+					return [estatistica.artista, estatistica.popularidade];
+				});
+				mapeamento.unshift(['Artista', 'Popularidade']);
+				var data = google.visualization.arrayToDataTable(mapeamento);
+				callback(data);
+			});
+		},
+		options: {
+			title: $('menu .maisPopulares').text(),
+			animation: OpcoesDefault.animacao,
+			vAxis: OpcoesDefault.eixoVertical,
+			height: OpcoesDefault.altura,
+		},
+		desenhar: function() {
+			var self = this;
+			this.dados(function(data) {
+				Visualizacao.grafico().draw(data, self.options);
+			});
+		}				
+	};
+
 	var Estatisticas = {
 		mediaPorArtista: function() {
 			Backend.artistas(function(artistas) {
@@ -198,6 +223,11 @@ $(function() {
 		maioresRatingsComCurtidas: function() {
 			SelecaoDeArtistas.removerSeletor();
 			MaioresRatingsComCurtidas.desenhar();
+		},
+
+		maisPopulares: function() {
+			SelecaoDeArtistas.removerSeletor();
+			MaisPopulares.desenhar();
 		}
 	};
 
@@ -206,5 +236,6 @@ $(function() {
 		$('menu .desvioPadraoPorArtista').click(Estatisticas.desvioPadraoPorArtista);
 		$('menu .maioresRatings').click(Estatisticas.maioresRatings);
 		$('menu .maioresRatingsComCurtidas').click(Estatisticas.maioresRatingsComCurtidas);
+		$('menu .maisPopulares').click(Estatisticas.maisPopulares);
 	});
 });
