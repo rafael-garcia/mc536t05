@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
 
 router.get('/artistas/media/:artista', function(req, res) {
 	var query = 'SELECT avg(nota) as media FROM curtida WHERE artista = ?';
-	var params = [req.params.artista];
+	var params = [encodeURIComponent(req.params.artista)];
 	dbaccess.query(query, params, function(err, result) {
 		if (err) {
 			res.send(err);
@@ -20,7 +20,7 @@ router.get('/artistas/media/:artista', function(req, res) {
 
 router.get('/artistas/desvioPadrao/:artista', function(req, res) {
 	var query = 'SELECT std(nota) as desvio_padrao FROM curtida WHERE artista = ?';
-	var params = [req.params.artista];
+	var params = [encodeURIComponent(req.params.artista)];
 	dbaccess.query(query, params, function(err, result) {
 		if (err) {
 			res.send(err);
@@ -45,7 +45,7 @@ router.get('/artistas/maioresMedias', function(req, res) {
 			    row.artista = nome;
 			    return row;
 			});
-			res.send(rows);
+			res.send(rows);	
 		}
 	});
 });

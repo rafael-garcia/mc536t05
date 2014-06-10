@@ -76,6 +76,14 @@ $(function() {
 			vAxis: OpcoesDefault.eixoVertical,
 			height: OpcoesDefault.altura
 		},
+		desenhar: function() {
+			var nomeOriginal = SelecaoDeArtistas.seletor().val();
+			var nomeCorrigido = SelecaoDeArtistas.seletor().find(':selected').text();
+			var self = this;
+			self.dados(nomeOriginal, nomeCorrigido, function(data) {
+				Visualizacao.grafico().draw(data, self.options);
+			});
+		}
 	};
 
 	var DesvioPadraoPorArtista = {
@@ -96,6 +104,14 @@ $(function() {
 				maxValue: 2
 			},
 			height: OpcoesDefault.altura
+		},
+		desenhar: function() {
+			var nomeOriginal = SelecaoDeArtistas.seletor().val();
+			var nomeCorrigido = SelecaoDeArtistas.seletor().find(':selected').text();
+			var self = this;
+			self.dados(nomeOriginal, nomeCorrigido, function(data) {
+				Visualizacao.grafico().draw(data, self.options);
+			});			
 		}
 	};
 
@@ -115,7 +131,13 @@ $(function() {
 			animation: OpcoesDefault.animacao,
 			vAxis: OpcoesDefault.eixoVertical,
 			height: OpcoesDefault.altura,
-		}		
+		},
+		desenhar: function() {
+			var self = this;
+			this.dados(function(data) {
+				Visualizacao.grafico().draw(data, self.options);
+			});
+		}
 	};
 
 	var Estatisticas = {
@@ -125,12 +147,9 @@ $(function() {
 				SelecaoDeArtistas.preencherSeletor(artistas);
 				SelecaoDeArtistas.adicionarSeletor();
 				SelecaoDeArtistas.associarEvento(function() {
-					var nomeOriginal = $(this).val();
-					var nomeCorrigido = $(this).find(':selected').text();
-					MediaPorArtista.dados(nomeOriginal, nomeCorrigido, function(data) {
-						Visualizacao.grafico().draw(data, MediaPorArtista.options);
-					});
+					MediaPorArtista.desenhar();
 				});
+				MediaPorArtista.desenhar();
 			});
 		},
 
@@ -140,20 +159,15 @@ $(function() {
 				SelecaoDeArtistas.preencherSeletor(artistas);
 				SelecaoDeArtistas.adicionarSeletor();
 				SelecaoDeArtistas.associarEvento(function() {
-					var nomeOriginal = $(this).val();
-					var nomeCorrigido = $(this).find(':selected').text();
-					DesvioPadraoPorArtista.dados(nomeOriginal, nomeCorrigido, function(data) {
-						Visualizacao.grafico().draw(data, DesvioPadraoPorArtista.options);
-					});
+					DesvioPadraoPorArtista.desenhar();
 				});
+				DesvioPadraoPorArtista.desenhar();
 			});
 		},
 
 		maioresRatings: function() {
 			SelecaoDeArtistas.removerSeletor();
-			MaioresRatings.dados(function(data) {
-				Visualizacao.grafico().draw(data, MaioresRatings.options)
-			});
+			MaioresRatings.desenhar();
 		}
 	};
 
