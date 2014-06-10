@@ -1,6 +1,19 @@
-google.load("visualization", "1", {packages:["corechart"]});
+google.load("visualization", "1", { packages: ["corechart"] });
 
 $(function() {
+	var Estatisticas = {
+		elemento: function() {
+			return $('.visualizacao .chart')[0];
+		},
+		grafico: function() {
+			if (!this._grafico) {
+				var elemento = this.elemento();
+				this._grafico = new google.visualization.ColumnChart(elemento);
+			}
+			return this._grafico;
+		}
+	};
+
 	var mediaPorArtista = function() {
 		$.getJSON('/artistas/listarNomes', function(resultados) {
 			var seletor = $('<select />').addClass('artistas');
@@ -31,8 +44,7 @@ $(function() {
 						}
 					};
 
-					// FIXME!!!!
-					window.chart.draw(data, options);			
+					Estatisticas.grafico().draw(data, options);
 				});
 			});
 		});
@@ -43,9 +55,6 @@ $(function() {
 	};
 
 	google.setOnLoadCallback(function() {
-		var chartElement = $('.visualizacao .chart')[0];
-		// FIXME!!!!
-		window.chart = new google.visualization.ColumnChart(chartElement);
 		$('menu .mediaPorArtista').click(mediaPorArtista);
 		$('menu .desvioPadraoPorArtista').click(desvioPadraoPorArtista);
 	});
