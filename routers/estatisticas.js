@@ -3,26 +3,79 @@ var dbaccess = require('../dbaccess');
 
 var router = express.Router();
 router.get('/artistas/media/:artista', function(req, res) {
-	var query = 'SELECT avg(nota) FROM curtida WHERE artista = ?';
+	var query = 'SELECT avg(nota) as media FROM curtida WHERE artista = ?';
 	var params = [req.params.artista];
-    dbaccess.query(query, params, function(err, result) {
+	dbaccess.query(query, params, function(err, result) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.send(result);
+			res.send(result[0]);
 		}
 	});	
 });
 
 router.get('/artistas/desvioPadrao/:artista', function(req, res) {
-	var query = 'SELECT std(nota) FROM curtida WHERE artista = ?';
+	var query = 'SELECT std(nota) as desvio_padrao FROM curtida WHERE artista = ?';
 	var params = [req.params.artista];
-    dbaccess.query(query, params, function(err, result) {
+	dbaccess.query(query, params, function(err, result) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(result[0]);
+		}
+	});	
+});
+
+router.get('/artistas/maioresMedias', function(req, res) {
+	var query = 'SELECT artista, avg(nota) as rating_medio FROM curtida GROUP BY artista ORDER BY rating_medio DESC LIMIT ?';
+	var limit = 20;
+	var params = [limit];
+	dbaccess.query(query, params, function(err, result) {
 		if (err) {
 			res.send(err);
 		} else {
 			res.send(result);
 		}
-	});	
+	});
 });
+
+router.get('/artistas/maioresMediasComMultiplasCurtidas', function(req, res) {
+	var query = 'SELECT artista, avg(nota) as rating_medio FROM curtida GROUP BY artista HAVING count(artista) > 1 ORDER BY rating_medio DESC LIMIT ?';
+	var limit = 20;
+	var params = [limit];
+	dbaccess.query(query, params, function(err, result) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(result);
+		}
+	});
+});
+
+router.get('/artistas/maisPopulares', function(req, res) {
+	var query = 'SELECT artista, count(artista) AS popularidade FROM curtida GROUP BY artista ORDER BY popularidade DESC LIMIT ?';
+	var limit = 10;
+	var params = [limit];
+	dbaccess.query(query, params, function(err, result) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(result);
+		}
+	});
+});
+
+router.get('/artistas/maiorVariabilidade', function(req, res) {
+	var query = 'SELECT artista, std(nota) as desvio_padrao FROM curtida GROUP BY artista HAVING count(artista) > 1 ORDER BY desvio_padrao DESC LIMIT ?';
+	var limit = 10;
+	var params = [limit];
+	dbaccess.query(query, params, function(err, result) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(result);
+		}
+	});
+});
+
 module.exports = router;
