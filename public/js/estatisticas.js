@@ -35,6 +35,10 @@ $(function() {
 		},
 		associarEvento: function(evento) {
 			this.seletor().change(evento);
+		},
+		removerSeletor: function() {
+			this.seletor().empty();
+			this.seletor().remove();
 		}
 	}
 
@@ -52,14 +56,15 @@ $(function() {
 		eixoVertical: {
 			minValue: 0,
 			maxValue: 5			
-		}
+		},
+		altura: 500
 	}
 
 	var MediaPorArtista = {
 		dados: function(nomeOriginal, nomeCorrigido, callback) {
 			$.getJSON('/estatisticas/artistas/media/' + nomeOriginal, function(estatistica) {
 				var data = google.visualization.arrayToDataTable([
-					['Artista', 'Media'],
+					['Artista', 'Rating médio'],
 					[nomeCorrigido, estatistica.media]
 				]);
 				callback(data);
@@ -68,7 +73,8 @@ $(function() {
 		options: {
 			title: $('menu .mediaPorArtista').text(),
 			animation: OpcoesDefault.animacao,
-			vAxis: OpcoesDefault.eixoVertical
+			vAxis: OpcoesDefault.eixoVertical,
+			height: OpcoesDefault.altura
 		},
 	};
 
@@ -76,7 +82,7 @@ $(function() {
 		dados: function(nomeOriginal, nomeCorrigido, callback) {
 			$.getJSON('/estatisticas/artistas/desvioPadrao/' + nomeOriginal, function(estatistica) {
 				var data = google.visualization.arrayToDataTable([
-					['Artista', 'Desvio padrao'],
+					['Artista', 'Desvio padrão'],
 					[nomeCorrigido, estatistica.desvio_padrao]
 				]);
 				callback(data);
@@ -88,13 +94,34 @@ $(function() {
 			vAxis: {
 				minValue: 0,
 				maxValue: 2
-			}
+			},
+			height: OpcoesDefault.altura
 		}
+	};
+
+	var MaioresRatings = {
+		dados: function(callback) {
+			$.getJSON('/estatisticas/artistas/maioresMedias', function(estatisticas) {
+				var mapeamento = estatisticas.map(function(estatistica) {
+					return [estatistica.artista, estatistica.rating_medio];
+				});
+				mapeamento.unshift(['Artista', 'Rating médio']);
+				var data = google.visualization.arrayToDataTable(mapeamento);
+				callback(data);
+			});
+		},
+		options: {
+			title: $('menu .maioresRatings').text(),
+			animation: OpcoesDefault.animacao,
+			vAxis: OpcoesDefault.eixoVertical,
+			height: OpcoesDefault.altura,
+		}		
 	};
 
 	var Estatisticas = {
 		mediaPorArtista: function() {
 			Backend.artistas(function(artistas) {
+				SelecaoDeArtistas.removerSeletor();
 				SelecaoDeArtistas.preencherSeletor(artistas);
 				SelecaoDeArtistas.adicionarSeletor();
 				SelecaoDeArtistas.associarEvento(function() {
@@ -109,6 +136,7 @@ $(function() {
 
 		desvioPadraoPorArtista: function() {
 			Backend.artistas(function(artistas) {
+				SelecaoDeArtistas.removerSeletor();
 				SelecaoDeArtistas.preencherSeletor(artistas);
 				SelecaoDeArtistas.adicionarSeletor();
 				SelecaoDeArtistas.associarEvento(function() {
@@ -119,11 +147,19 @@ $(function() {
 					});
 				});
 			});
+		},
+
+		maioresRatings: function() {
+			SelecaoDeArtistas.removerSeletor();
+			MaioresRatings.dados(function(data) {
+				Visualizacao.grafico().draw(data, MaioresRatings.options)
+			});
 		}
 	};
 
 	google.setOnLoadCallback(function() {
 		$('menu .mediaPorArtista').click(Estatisticas.mediaPorArtista);
 		$('menu .desvioPadraoPorArtista').click(Estatisticas.desvioPadraoPorArtista);
+		$('menu .maioresRatings').click(Estatisticas.maioresRatings);
 	});
 });
