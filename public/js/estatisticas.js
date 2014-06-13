@@ -193,7 +193,6 @@ $(function() {
 	var MaiorVariabilidade = {
 		dados: function(callback) {
 			$.getJSON('/estatisticas/artistas/maiorVariabilidade', function(estatisticas) {
-				console.log('vab:', estatisticas);
 				var mapeamento = estatisticas.map(function(estatistica) {
 					return [estatistica.artista, estatistica.variabilidade];
 				});
@@ -218,6 +217,30 @@ $(function() {
 			});
 		}
 	};
+
+	var GenerosMaisPopulares = {
+		dados: function(callback) {
+			$.getJSON('/estatisticas/generos/maisPopulares', function(estatisticas) {
+				var mapeamento = estatisticas.map(function(estatistica) {
+					return [estatistica.nome, estatistica.popularidade];
+				});
+				mapeamento.unshift(['Gênero', 'Popularidade']);
+				var data = google.visualization.arrayToDataTable(mapeamento);
+				callback(data);
+			});
+		},
+		options: {
+			title: $('menu .generosMaisPopulares').text(),
+			animation: OpcoesDefault.animacao,
+			height: OpcoesDefault.altura
+		},
+		desenhar: function() {
+			var self = this;
+			this.dados(function(data) {
+				Visualizacao.grafico().draw(data, self.options);
+			});
+		}
+	}
 
 	var Estatisticas = {
 		mediaPorArtista: function() {
@@ -262,6 +285,11 @@ $(function() {
 		maiorVariabilidade: function() {
 			SelecaoDeArtistas.removerSeletor();
 			MaiorVariabilidade.desenhar();
+		},
+
+		generosMaisPopulares: function() {
+			SelecaoDeArtistas.removerSeletor();
+			GenerosMaisPopulares.desenhar();
 		}
 	};
 
@@ -272,5 +300,6 @@ $(function() {
 		$('menu .maioresRatingsComCurtidas').click(Estatisticas.maioresRatingsComCurtidas);
 		$('menu .maisPopulares').click(Estatisticas.maisPopulares);
 		$('menu .maiorVariabilidade').click(Estatisticas.maiorVariabilidade);
+		$('menu .generosMaisPopulares').click(Estatisticas.generosMaisPopulares);
 	});
 });
