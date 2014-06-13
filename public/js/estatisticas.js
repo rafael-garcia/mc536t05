@@ -11,6 +11,13 @@ $(function() {
 				this._grafico = new google.visualization.ColumnChart(elemento);
 			}
 			return this._grafico;
+		},
+		graficoDeLinha: function() {
+			if (!this._graficoDeLinha) {
+				var elemento = this.elemento();
+				this._graficoDeLinha = new google.visualization.LineChart(elemento);
+			}
+			return this._graficoDeLinha;
 		}
 	};
 
@@ -240,7 +247,30 @@ $(function() {
 				Visualizacao.grafico().draw(data, self.options);
 			});
 		}
-	}
+	};
+
+	var UsuariosPorCurtidas = {
+		dados: function(callback) {
+			$.getJSON('/estatisticas/usuarios/porNumeroDeCurtidas', function(estatisticas) {
+				var mapeamento = estatisticas.map(function(estatistica) {
+					return [estatistica.curtidas, estatistica.quantos_usuarios];
+				});
+				mapeamento.unshift(['Nº de curtidas', 'Nº de usuários']);
+				var data = google.visualization.arrayToDataTable(mapeamento);
+				callback(data);
+			});
+		},
+		options: {
+			title: $('menu .usuariosPorCurtidas').text(),
+			animation: OpcoesDefault.animacao,
+			height: OpcoesDefault.altura
+		},
+		desenhar: function() {
+			this.dados(function(data) {
+				Visualizacao.graficoDeLinha().draw(data, self.options);
+			});
+		}
+	};
 
 	var Estatisticas = {
 		mediaPorArtista: function() {
@@ -290,6 +320,11 @@ $(function() {
 		generosMaisPopulares: function() {
 			SelecaoDeArtistas.removerSeletor();
 			GenerosMaisPopulares.desenhar();
+		},
+
+		usuariosPorCurtidas: function() {
+			SelecaoDeArtistas.removerSeletor();
+			UsuariosPorCurtidas.desenhar();
 		}
 	};
 
@@ -301,5 +336,6 @@ $(function() {
 		$('menu .maisPopulares').click(Estatisticas.maisPopulares);
 		$('menu .maiorVariabilidade').click(Estatisticas.maiorVariabilidade);
 		$('menu .generosMaisPopulares').click(Estatisticas.generosMaisPopulares);
+		$('menu .usuariosPorCurtidas').click(Estatisticas.usuariosPorCurtidas);
 	});
 });
