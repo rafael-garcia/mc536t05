@@ -10,6 +10,7 @@ $(function() {
 				var elemento = this.elemento();
 				this._grafico = new google.visualization.ColumnChart(elemento);
 			}
+			this._graficoDeLinha = null;
 			return this._grafico;
 		},
 		graficoDeLinha: function() {
@@ -17,6 +18,7 @@ $(function() {
 				var elemento = this.elemento();
 				this._graficoDeLinha = new google.visualization.LineChart(elemento);
 			}
+			this._grafico = null;
 			return this._graficoDeLinha;
 		}
 	};
@@ -261,7 +263,7 @@ $(function() {
 			});
 		},
 		options: {
-			title: $('menu .usuariosPorCurtidas').text(),
+			title: 'Número de usuários por número de curtidas',
 			animation: OpcoesDefault.animacao,
 			height: OpcoesDefault.altura
 		},
